@@ -1,0 +1,45 @@
+﻿@page "/conferences"
+
+@using TTConfTool.Shared.DTO
+@using TTConfTool.Shared.Contracts
+
+@inject IConferencesService _conferencesClient
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+    <MudText Typo="Typo.h3" GutterBottom="true">Conferences</MudText>
+    @if (_conferences == null)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+        <MudTable Items="_conferences" Hover="true" Elevation="3">
+            <HeaderContent>
+                <MudTh Style="color: white; background-color: #ff584f">Titel</MudTh>
+                <MudTh Style="color: white; background-color: #ff584f">Ort</MudTh>
+                <MudTh Style="color: white; background-color: #ff584f">Zeitraum</MudTh>
+                <MudTh Style="color: white; background-color: #ff584f">Link</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Title">@context.Title</MudTd>
+                <MudTd DataLabel="Title">@context.City</MudTd>
+                <MudTd DataLabel="Title">@context.DateFrom - @context.DateTo</MudTd>
+                <MudTd DataLabel="Title"><a href="@context.Url" target="_blank">@context.Url</a></MudTd>
+            </RowTemplate>
+        </MudTable>
+    }
+</MudContainer>
+
+@code {
+    private List<Conference> _conferences;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadConferences();
+    }
+
+    private async Task LoadConferences()
+    {
+        _conferences = (await _conferencesClient.ListConferencesAsync());
+    }
+}
