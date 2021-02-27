@@ -2,6 +2,9 @@
 
 @using TTConfTool.Shared.DTO
 @using TTConfTool.Shared.Contracts
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
 
 @inject IConferencesService _conferencesClient
 

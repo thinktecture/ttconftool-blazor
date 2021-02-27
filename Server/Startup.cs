@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Thinktecture.WebAssembly.WebAssemblyPrerenderingNoop;
 using TTConfTool.Shared;
 
 namespace BlazorWasmPrerendering.Server
@@ -19,6 +20,8 @@ namespace BlazorWasmPrerendering.Server
         public void ConfigureServices(IServiceCollection services)
         {
             CommonStartup.ConfigureServices(services);
+
+            services.AddWebAssemblyPrerenderingNoopAuthentication();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
