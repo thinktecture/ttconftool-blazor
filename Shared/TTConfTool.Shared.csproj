@@ -17,5 +17,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="5.0.3" />
     <PackageReference Include="WebAssembly.Authentication.Auth0" Version="1.0.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Macross.Json.Extensions" Version="1.5.0" />
   </ItemGroup>
 </Project>
