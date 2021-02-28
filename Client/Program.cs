@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using TTConfTool.Shared;
 
 namespace TTConfTool.Client
@@ -12,7 +12,12 @@ namespace TTConfTool.Client
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-            builder.Services.AddOidcAuthentication(options =>
+            /*builder.Services.AddOidcAuthentication(options =>
+            {
+                builder.Configuration.Bind("Oidc", options.ProviderOptions);
+            });*/
+
+            builder.Services.AddAuth0Authentication(options =>
             {
                 builder.Configuration.Bind("Oidc", options.ProviderOptions);
             });
