@@ -22,5 +22,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\" />
+    <Folder Include="Conferences\" />
   </ItemGroup>
 </Project>

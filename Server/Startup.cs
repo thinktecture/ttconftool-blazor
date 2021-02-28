@@ -19,7 +19,7 @@ namespace BlazorWasmPrerendering.Server
 
         public void ConfigureServices(IServiceCollection services)
         {
-            CommonStartup.ConfigureServices(services);
+            CommonStartup.ConfigureServices(services, Configuration);
 
             services.AddWebAssemblyPrerenderingNoopAuthentication();
 

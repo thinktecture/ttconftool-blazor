@@ -12,17 +12,12 @@ namespace TTConfTool.Client
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-            /*builder.Services.AddOidcAuthentication(options =>
-            {
-                builder.Configuration.Bind("Oidc", options.ProviderOptions);
-            });*/
-
             builder.Services.AddAuth0Authentication(options =>
             {
                 builder.Configuration.Bind("Oidc", options.ProviderOptions);
             });
 
-            CommonStartup.ConfigureServices(builder.Services);
+            CommonStartup.ConfigureServices(builder.Services, builder.Configuration);
 
             await builder.Build().RunAsync();
         }

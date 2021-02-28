@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using Microsoft.Extensions.Configuration;
 
 namespace TTConfTool.Shared
 {
     public class ConfToolApiAuthorizationMessageHandler : AuthorizationMessageHandler
     {
         public ConfToolApiAuthorizationMessageHandler(IAccessTokenProvider provider,
-            NavigationManager navigationManager)
+            NavigationManager navigationManager, IConfiguration config)
             : base(provider, navigationManager)
         {
             ConfigureHandler(
-                authorizedUrls: new[] { "https://api-ttconftool.azurewebsites.net/api/v1/" }
+                authorizedUrls: new[] { config["ConfToolApi"] }
             );
         }
-
     }
 }
