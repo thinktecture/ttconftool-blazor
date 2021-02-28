@@ -22,7 +22,7 @@
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
 </head>
 <body>
-    @if (HttpContext.Request.Path.StartsWithSegments("/authentication"))
+    @if (!HttpContext.Request.Path.StartsWithSegments("/authentication"))
     {
         <component type="typeof(App)" render-mode="Static" />
     }
