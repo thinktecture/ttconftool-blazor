@@ -2,6 +2,16 @@
 
 namespace TTConfTool.Shared.DTO
 {
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum Country { Be, Ch, De, En, Nl };
+    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
+    public enum Country
+    {
+        Be,
+        Ch,
+        De,
+        En,
+        Nl,
+        No,
+        Us,
+        At
+    };
 }

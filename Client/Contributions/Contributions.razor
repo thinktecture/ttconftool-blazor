@@ -2,7 +2,7 @@
 
 @using System.Collections.Generic
 @using TTConfTool.Shared.Contracts
-@using TTConfTool.Shared.DTO
+@using TTConfTool.Shared.ViewModels
 @using Microsoft.AspNetCore.Authorization
 
 @attribute [Authorize]
@@ -28,9 +28,9 @@
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Titel">@context.Title</MudTd>
-                <MudTd DataLabel="Sprecher">@context.Speaker</MudTd>
+                <MudTd DataLabel="Sprecher">@context.Speakers.Count()</MudTd>
                 <MudTd DataLabel="Datum">@context.Date</MudTd>
-                <MudTd DataLabel="Konferenz"><a href="@context.Conference" target="_blank">@context.Conference</a></MudTd>
+                <MudTd DataLabel="Konferenz"><a href="@context.Conference?.Url" target="_blank">@context.Conference?.Title</a></MudTd>
                 <MudTd DataLabel="Art">@context.Type</MudTd>
                 <MudTd DataLabel="Tags">@context.Tags</MudTd>
             </RowTemplate>
@@ -39,7 +39,7 @@
 </MudContainer>
 
 @code {
-    private List<Contribution> _contributions;
+    private List<ListViewContribution> _contributions;
 
     protected override async Task OnInitializedAsync()
     {
@@ -48,6 +48,6 @@
 
     private async Task LoadContributions()
     {
-        _contributions = (await _contributionsClient.ListContributionsAsync());
+        _contributions = (await _contributionsClient.GetListViewContributionsAsync());
     }
 }

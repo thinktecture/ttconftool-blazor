@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace TTConfTool.Shared.DTO
+namespace TTConfTool.Shared.Json
 {
     public class ConfToolDateTimeOffsetConverter : JsonConverter<DateTime>
     {

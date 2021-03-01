@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using TTConfTool.Shared.DTO;
 using TTConfTool.Shared.Json;
 
-namespace TTConfTool.Shared.DTO
+namespace TTConfTool.Shared.ViewModels
 {
-    public class Contribution
+    public class ListViewContribution
     {
         public long ID { get; set; }
         public ContributionType Type { get; set; }
@@ -17,7 +18,7 @@ namespace TTConfTool.Shared.DTO
         public string Abstract { get; set; }
         public List<Media> Media { get; set; }
         public string PreviewSrc { get; set; }
-        public List<long> Speaker { get; set; }
+        public List<Speaker> Speakers { get; set; }
         public List<string> Tags { get; set; }
         public bool? ExternalSpeaker { get; set; }
         public string Time { get; set; }
@@ -25,6 +26,6 @@ namespace TTConfTool.Shared.DTO
         public string BigmarkerRef { get; set; }
         public string CtaKey { get; set; }
         public string AdditionalInfo { get; set; }
-        public long? Conference { get; set; }
+        public Conference Conference { get; set; }
     }
 }

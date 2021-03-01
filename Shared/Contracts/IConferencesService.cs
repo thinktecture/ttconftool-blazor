@@ -6,6 +6,6 @@ namespace TTConfTool.Shared.Contracts
 {
     public interface IConferencesService
     {
-        Task<List<Conference>> ListConferencesAsync();
+        Task<List<Conference>> GetConferencesAsync();
     }
 }

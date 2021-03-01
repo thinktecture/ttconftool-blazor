@@ -11,6 +11,8 @@ namespace TTConfTool.Shared
     {
         public static void ConfigureServices(IServiceCollection services, IConfiguration config)
         {
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddScoped<ConfToolApiAuthorizationMessageHandler>();
 
             services.AddHttpClient<IConferencesService, ConferencesServiceHttpClient>(client =>

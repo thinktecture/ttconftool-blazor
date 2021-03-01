@@ -16,7 +16,7 @@ namespace TTConfTool.Shared.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<Conference>> ListConferencesAsync()
+        public async Task<List<Conference>> GetConferencesAsync()
         {
             return (await _httpClient.GetFromJsonAsync<ConferencesResponse>("conferences")).Conferences;
         }

@@ -43,6 +43,6 @@
 
     private async Task LoadConferences()
     {
-        _conferences = (await _conferencesClient.ListConferencesAsync());
+        _conferences = (await _conferencesClient.GetConferencesAsync());
     }
 }
