@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using AutoMapper;
 using TTConfTool.Shared.Contracts;
 using TTConfTool.Shared.DTO;
 using TTConfTool.Shared.ViewModels;
@@ -29,7 +29,7 @@ namespace TTConfTool.Shared.Services
         public async Task<List<ListViewContribution>> GetListViewContributionsAsync()
         {
             var response = await _httpClient.GetFromJsonAsync<ContributionsResponse>("contributions");
-            
+
             var listViewContributions = _mapper.Map<List<ListViewContribution>>(response.Contributions);
 
             listViewContributions.ForEach(listViewContribution =>

@@ -1,6 +1,6 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using System.Threading.Tasks;
 
 namespace Thinktecture.WebAssembly.WebAssemblyPrerenderingNoop
 {
