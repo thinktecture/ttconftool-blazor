@@ -13,29 +13,55 @@
     <MudText Typo="Typo.h3" GutterBottom="true">Contributions</MudText>
     @if (_contributions == null)
     {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+        @*<MudProgressCircular Color="Color.Default" Indeterminate="true" />*@
+        <p><em>Loading...</em></p>
     }
     else
     {
-        <MudTable Items="_contributions" Hover="true" Elevation="3">
-            <HeaderContent>
-                <MudTh Style="color: white; background-color: #ff584f">Titel</MudTh>
-                <MudTh Style="color: white; background-color: #ff584f">Sprecher</MudTh>
-                <MudTh Style="color: white; background-color: #ff584f">Datum</MudTh>
-                <MudTh Style="color: white; background-color: #ff584f">Konferenz</MudTh>
-                <MudTh Style="color: white; background-color: #ff584f">Art</MudTh>
-                <MudTh Style="color: white; background-color: #ff584f">Tags</MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                <MudTd DataLabel="Titel">@context.Title</MudTd>
-                <MudTd DataLabel="Sprecher">@context.SpeakersString</MudTd>
-                <MudTd DataLabel="Datum">@context.Date</MudTd>
-                <MudTd DataLabel="Konferenz"><a href="@context.Conference?.Url" target="_blank">@context.Conference?.Title</a></MudTd>
-                <MudTd DataLabel="Art">@context.Type</MudTd>
-                <MudTd DataLabel="Tags">@context.Tags</MudTd>
-            </RowTemplate>
-        </MudTable>
-    }
+        <MudSimpleTable Style="overflow-x: auto;" Hover="true">
+            <thead>
+                <tr>
+                    <th>Titel</th>
+                    <th>Sprecher</th>
+                    <th>Datum</th>
+                    <th>Konferenz</th>
+                    <th>Art</th>
+                    <th>Tags</th>
+                </tr>
+            </thead>
+            <tbody>
+                <Virtualize Items="@_contributions" Context="contr">
+                    <tr @key="contr.ID">
+                        <td>@contr.Title</td>
+                        <td>@contr.SpeakersString</td>
+                        <td>@contr.Date</td>
+                        <td><a href="@contr.Conference?.Url" target="_blank">@contr.Conference?.Title</a></td>
+                        <td>@contr.Type</td>
+                        <td>@contr.Tags</td>
+                    </tr>
+                </Virtualize>
+            </tbody>
+        </MudSimpleTable>
+
+            @*<MudTable Items="_contributions" Hover="true" Elevation="3">
+                    <HeaderContent>
+                        <MudTh Style="color: white; background-color: #ff584f">Titel</MudTh>
+                        <MudTh Style="color: white; background-color: #ff584f">Sprecher</MudTh>
+                        <MudTh Style="color: white; background-color: #ff584f">Datum</MudTh>
+                        <MudTh Style="color: white; background-color: #ff584f">Konferenz</MudTh>
+                        <MudTh Style="color: white; background-color: #ff584f">Art</MudTh>
+                        <MudTh Style="color: white; background-color: #ff584f">Tags</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Titel">@context.Title</MudTd>
+                        <MudTd DataLabel="Sprecher">@context.SpeakersString</MudTd>
+                        <MudTd DataLabel="Datum">@context.Date</MudTd>
+                        <MudTd DataLabel="Konferenz"><a href="@context.Conference?.Url" target="_blank">@context.Conference?.Title</a></MudTd>
+                        <MudTd DataLabel="Art">@context.Type</MudTd>
+                        <MudTd DataLabel="Tags">@context.Tags</MudTd>
+                    </RowTemplate>
+                </MudTable>*@
+        }
 </MudContainer>
 
 @code {

@@ -48,7 +48,7 @@ namespace TTConfTool.Shared.Services
             });
 
             sw.Stop();
-            System.Console.WriteLine("***ELAPSED - GetListViewContributionsAsync MAPPING: " + sw.ElapsedMilliseconds);
+            System.Console.WriteLine("***ELAPSED - GetListViewContributionsAsync MAPPING: {0} ms", sw.ElapsedMilliseconds);
 
             return listViewContributions;
         }
