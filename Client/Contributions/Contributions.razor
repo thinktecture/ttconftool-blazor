@@ -9,7 +9,7 @@
 
 @inject IContributionsService _contributionsClient
 
-<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-12">
     <MudText Typo="Typo.h3" GutterBottom="true">Contributions</MudText>
     @if (_contributions == null)
     {
@@ -28,7 +28,7 @@
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Titel">@context.Title</MudTd>
-                <MudTd DataLabel="Sprecher">@context.Speakers.Count()</MudTd>
+                <MudTd DataLabel="Sprecher">@context.SpeakersString</MudTd>
                 <MudTd DataLabel="Datum">@context.Date</MudTd>
                 <MudTd DataLabel="Konferenz"><a href="@context.Conference?.Url" target="_blank">@context.Conference?.Title</a></MudTd>
                 <MudTd DataLabel="Art">@context.Type</MudTd>

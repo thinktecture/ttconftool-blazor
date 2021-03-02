@@ -10,10 +10,7 @@ namespace TTConfTool.Shared.Json
         private const string _dateFormat1 = "yyyy-MM-dd HH:mm:ss";
         private const string _dateFormat2 = "yyyy-MM-dd HH:mm:ss.fffffff";
 
-        public override DateTime Read(
-            ref Utf8JsonReader reader,
-            Type typeToConvert,
-            JsonSerializerOptions options)
+        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             try
             {
@@ -25,11 +22,7 @@ namespace TTConfTool.Shared.Json
             }
         }
 
-
-        public override void Write(
-            Utf8JsonWriter writer,
-            DateTime value,
-            JsonSerializerOptions options) =>
+        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options) =>
             writer.WriteStringValue(value.ToString(_dateFormat1, CultureInfo.InvariantCulture));
     }
 }

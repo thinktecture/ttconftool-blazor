@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -27,10 +28,22 @@ namespace TTConfTool.Shared.Services
 
         public async Task<List<ListViewContribution>> GetListViewContributionsAsync()
         {
-            var contributions = (await _httpClient.GetFromJsonAsync<ContributionsResponse>("contributions")).Contributions;
-            var result = _mapper.Map<List<ListViewContribution>>(contributions);
+            var response = await _httpClient.GetFromJsonAsync<ContributionsResponse>("contributions");
+            
+            var listViewContributions = _mapper.Map<List<ListViewContribution>>(response.Contributions);
 
-            return result;
+            listViewContributions.ForEach(listViewContribution =>
+            {
+                if (listViewContribution.Conference != null)
+                {
+                    listViewContribution.Conference = response.Conferences.Where(c => c.Key == listViewContribution.Conference.ID).First().Value;
+                }
+
+                listViewContribution.Speakers = listViewContribution.Speakers.Select(speaker => response.Speaker.Where(s => s.Key == speaker.ID).First().Value).ToList();
+                listViewContribution.SpeakersString = string.Join(", ", listViewContribution.Speakers.Select(s => s.FirstName + " " + s.LastName).ToList()); ;
+            });
+
+            return listViewContributions;
         }
     }
 }

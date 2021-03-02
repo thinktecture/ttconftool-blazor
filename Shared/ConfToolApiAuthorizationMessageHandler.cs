@@ -6,13 +6,10 @@ namespace TTConfTool.Shared
 {
     public class ConfToolApiAuthorizationMessageHandler : AuthorizationMessageHandler
     {
-        public ConfToolApiAuthorizationMessageHandler(IAccessTokenProvider provider,
-            NavigationManager navigationManager, IConfiguration config)
+        public ConfToolApiAuthorizationMessageHandler(IAccessTokenProvider provider, NavigationManager navigationManager, IConfiguration config)
             : base(provider, navigationManager)
         {
-            ConfigureHandler(
-                authorizedUrls: new[] { config["ConfToolApi"] }
-            );
+            ConfigureHandler(authorizedUrls: new[] { config["ConfToolApi"] });
         }
     }
 }

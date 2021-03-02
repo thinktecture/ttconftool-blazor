@@ -19,6 +19,7 @@ namespace TTConfTool.Shared.ViewModels
         public List<Media> Media { get; set; }
         public string PreviewSrc { get; set; }
         public List<Speaker> Speakers { get; set; }
+        public string SpeakersString { get; set; }
         public List<string> Tags { get; set; }
         public bool? ExternalSpeaker { get; set; }
         public string Time { get; set; }
