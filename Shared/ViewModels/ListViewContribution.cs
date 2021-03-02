@@ -21,6 +21,7 @@ namespace TTConfTool.Shared.ViewModels
         public List<Speaker> Speakers { get; set; }
         public string SpeakersString { get; set; }
         public List<string> Tags { get; set; }
+        public string TagsString { get; set; }
         public bool? ExternalSpeaker { get; set; }
         public string Time { get; set; }
         public string UrlFragment { get; set; }

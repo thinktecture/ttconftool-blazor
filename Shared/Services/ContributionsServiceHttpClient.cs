@@ -44,7 +44,8 @@ namespace TTConfTool.Shared.Services
                 }
 
                 listViewContribution.Speakers = listViewContribution.Speakers.Select(speaker => response.Speaker.Where(s => s.Key == speaker.ID).First().Value).ToList();
-                listViewContribution.SpeakersString = string.Join(", ", listViewContribution.Speakers.Select(s => s.FirstName + " " + s.LastName).ToList()); ;
+                listViewContribution.SpeakersString = string.Join(", ", listViewContribution.Speakers.Select(s => s.FirstName + " " + s.LastName).ToList());
+                listViewContribution.TagsString = string.Join(", ", listViewContribution.Tags);
             });
 
             sw.Stop();
