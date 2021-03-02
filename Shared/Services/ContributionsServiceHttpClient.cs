@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -30,6 +31,9 @@ namespace TTConfTool.Shared.Services
         {
             var response = await _httpClient.GetFromJsonAsync<ContributionsResponse>("contributions");
 
+            var sw = new Stopwatch();
+            sw.Start();
+
             var listViewContributions = _mapper.Map<List<ListViewContribution>>(response.Contributions);
 
             listViewContributions.ForEach(listViewContribution =>
@@ -42,6 +46,9 @@ namespace TTConfTool.Shared.Services
                 listViewContribution.Speakers = listViewContribution.Speakers.Select(speaker => response.Speaker.Where(s => s.Key == speaker.ID).First().Value).ToList();
                 listViewContribution.SpeakersString = string.Join(", ", listViewContribution.Speakers.Select(s => s.FirstName + " " + s.LastName).ToList()); ;
             });
+
+            sw.Stop();
+            System.Console.WriteLine("***ELAPSED - GetListViewContributionsAsync MAPPING: " + sw.ElapsedMilliseconds);
 
             return listViewContributions;
         }

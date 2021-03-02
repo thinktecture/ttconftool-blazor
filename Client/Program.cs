@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using TTConfTool.Shared;
+using TTConfTool.UI;
 
 namespace TTConfTool.Client
 {
@@ -10,6 +11,9 @@ namespace TTConfTool.Client
     {
         public static async Task Main(string[] args)
         {
+            // Need to force assembly loading (https://github.com/dotnet/aspnetcore/issues/26601)
+            typeof(App).ToString();
+
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
             builder.Services.AddAuth0Authentication(options =>

@@ -10,7 +10,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.3" PrivateAssets="all" />
-    <PackageReference Include="MudBlazor" Version="5.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="5.0.3" />
     <PackageReference Include="WebAssembly.Authentication.Auth0" Version="1.0.0.1" />
   </ItemGroup>
@@ -19,10 +18,11 @@
     <ProjectReference Include="..\Shared\TTConfTool.Shared.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\TTConfTool.UI\TTConfTool.UI.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\" />
-    <Folder Include="Conferences\" />
-    <Folder Include="Contributions\" />
   </ItemGroup>
 </Project>

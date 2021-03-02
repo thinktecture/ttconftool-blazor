@@ -17,5 +17,8 @@
     <ProjectReference Include="..\Shared\TTConfTool.Shared.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\TTConfTool.UI\TTConfTool.UI.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 </Project>
