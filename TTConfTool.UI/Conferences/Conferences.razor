@@ -16,7 +16,10 @@
     }
     else
     {
-        <MudTable Items="_conferences" Hover="true" Elevation="3">
+        <MudTable Items="_conferences" Hover="true" Elevation="3" Filter="new Func<Conference, bool>(FilterFunc)">
+            <ToolBarContent>
+                <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            </ToolBarContent>
             <HeaderContent>
                 <MudTh Style="color: white; background-color: #ff584f">Titel</MudTh>
                 <MudTh Style="color: white; background-color: #ff584f">Ort</MudTh>
@@ -35,6 +38,8 @@
 
 @code {
     private List<Conference> _conferences;
+    private string _searchString = String.Empty;
+    private Conference _selectedItem = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -44,5 +49,14 @@
     private async Task LoadConferences()
     {
         _conferences = (await _conferencesClient.GetConferencesAsync());
+    }
+
+    private bool FilterFunc(Conference conference)
+    {
+        if (string.IsNullOrWhiteSpace(_searchString))
+            return true;
+        if (conference.Title.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
     }
 }
