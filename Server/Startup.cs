@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Thinktecture.WebAssembly.WebAssemblyPrerenderingNoop;
 using TTConfTool.Shared;
 
-namespace BlazorWasmPrerendering.Server
+namespace TTConfTool.Server
 {
     public class Startup
     {
