@@ -23,11 +23,11 @@
 <body>
     @if (wasm)
     {
-        <component type="typeof(TTConfTool.Client.App)" render-mode="WebAssemblyPrerendered" />
+        <component type="typeof(TTConfTool.UI.App)" render-mode="WebAssemblyPrerendered" />
     }
     else
     {
-        <component type="typeof(TTConfTool.Server.App)" render-mode="ServerPrerendered" />
+        <component type="typeof(TTConfTool.UI.App)" render-mode="ServerPrerendered" />
     }
     
     <div id="blazor-error-ui">

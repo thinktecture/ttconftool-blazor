@@ -12,7 +12,7 @@ namespace Thinktecture.WebAssembly.WebAssemblyPrerenderingNoop
             services.AddRemoteAuthentication<RemoteAuthenticationState, RemoteUserAccount, OidcProviderOptions>();
             services.AddScoped<SignOutSessionStateManager>();
             services.AddScoped<AuthenticationStateProvider, WebAssemblyPrerenderingNoopRemoteAuthenticationService>();
-            services.AddTransient<IJSRuntime, WebAssemblyPrerenderingNoopJSRuntime>();
+            //services.AddTransient<IJSRuntime, WebAssemblyPrerenderingNoopJSRuntime>();
         }
     }
 }
