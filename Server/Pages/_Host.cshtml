@@ -2,11 +2,10 @@
 
 @namespace TTConfTool.Server.Pages
 
-@using TTConfTool.UI
-
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     Layout = null;
+    var wasm = Request.Query.ContainsKey("wasm");
 }
 
 <!DOCTYPE html>
@@ -22,8 +21,15 @@
     <link href="_content/TTConfTool.UI/TTConfTool.UI.bundle.scp.css" rel="stylesheet">
 </head>
 <body>
-    <component type="typeof(App)" render-mode="WebAssemblyPrerendered" />
-
+    @if (wasm)
+    {
+        <component type="typeof(TTConfTool.Client.App)" render-mode="WebAssemblyPrerendered" />
+    }
+    else
+    {
+        <component type="typeof(TTConfTool.Server.App)" render-mode="ServerPrerendered" />
+    }
+    
     <div id="blazor-error-ui">
         <environment include="Staging,Production">
             An error has occurred. This application may no longer respond until reloaded.
@@ -37,7 +43,8 @@
 
     <script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>
 
-    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="_framework/blazor.@(wasm ? "webassembly" : "server").js"></script>
+
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
 </body>
 </html>

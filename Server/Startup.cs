@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Thinktecture.WebAssembly.WebAssemblyPrerenderingNoop;
 using TTConfTool.Shared;
 
-namespace BlazorWasmPrerendering.Server
+namespace TTConfTool.Server
 {
     public class Startup
     {
@@ -19,6 +19,10 @@ namespace BlazorWasmPrerendering.Server
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddServerSideBlazor(options => {
+                options.DetailedErrors = true;
+            });
+
             CommonStartup.ConfigureServices(services, Configuration);
 
             services.AddWebAssemblyPrerenderingNoopAuthentication();
@@ -49,6 +53,7 @@ namespace BlazorWasmPrerendering.Server
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
         }
