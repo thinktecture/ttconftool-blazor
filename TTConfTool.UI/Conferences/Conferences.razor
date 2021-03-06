@@ -33,8 +33,8 @@
                         <MudSelectItem T="Speaker" Value="speaker">@speaker.FirstName @speaker.LastName</MudSelectItem>
                     }
                 </MudSelect>
-                <MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" Label="Ab (Datum)" DateChanged="FilterByStartDateAsync" DisableToolbar="true" Editable="true" />
-                <MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" Label="Bis (Datum)" DateChanged="FilterByEndDateAsync" DisableToolbar="true" Editable="true" />
+                <MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Ab (Datum)" DateChanged="FilterByStartDateAsync" DisableToolbar="true" Editable="true" />
+                <MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Bis (Datum)" DateChanged="FilterByEndDateAsync" DisableToolbar="true" Editable="true" />
             </ToolBarContent>
             <HeaderContent>
                 <MudTh Style="color: white; background-color: #ff584f">Titel</MudTh>
@@ -106,11 +106,11 @@
     {
         if (speaker.ID != 0)
         {
-            _filter.Value.Add(new KeyValuePair<string, string>("speaker", speaker.ID.ToString()));
+            _filter.Add(nameof(speaker), speaker.ID.ToString());
         }
         else
         {
-            _filter.Value.Clear();
+            _filter.Clear();
         }
 
         await LoadConferencesAsync();
@@ -120,7 +120,7 @@
     {
         if(dateFrom.HasValue)
         {
-            _filter.Value.Add(new KeyValuePair<string, string>("dateFrom", dateFrom.Value.ToString()));
+            _filter.Add(nameof(dateFrom), dateFrom.Value.ToString());
         }
 
         await LoadConferencesAsync();
@@ -130,7 +130,7 @@
     {
         if (dateTo.HasValue)
         {
-            _filter.Value.Add(new KeyValuePair<string, string>("dateTo", dateTo.Value.ToString()));
+            _filter.Add(nameof(dateTo), dateTo.Value.ToString());
         }
 
         await LoadConferencesAsync();

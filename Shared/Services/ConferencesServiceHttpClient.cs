@@ -19,7 +19,7 @@ namespace TTConfTool.Shared.Services
 
         public async Task<List<Conference>> GetConferencesAsync(SearchFilter filter = null)
         {
-            var queryString = QueryString.Create(filter.Value);
+            var queryString = QueryString.Create(filter.GetValue());
             
             return (await _httpClient.GetFromJsonAsync<ConferencesResponse>("conferences" + queryString.ToUriComponent())).Conferences;
         }

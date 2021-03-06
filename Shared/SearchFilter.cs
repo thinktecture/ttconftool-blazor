@@ -4,11 +4,26 @@ namespace TTConfTool.Shared
 {
     public class SearchFilter
     {
-        public List<KeyValuePair<string, string>> Value { get; set; }
+        private List<KeyValuePair<string, string>> _value { get; set; }
 
         public SearchFilter()
         {
-            Value = new List<KeyValuePair<string, string>>();
+            _value = new List<KeyValuePair<string, string>>();
+        }
+
+        public void Add(string key, string value)
+        {
+            _value.Add(new KeyValuePair<string, string>(key, value));
+        }
+
+        public void Clear()
+        {
+            _value.Clear();
+        }
+
+        public List<KeyValuePair<string, string>> GetValue()
+        {
+            return _value;
         }
     }
 }
