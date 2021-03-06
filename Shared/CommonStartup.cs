@@ -23,6 +23,10 @@ namespace TTConfTool.Shared
                 client.BaseAddress = new Uri(config["ConfToolApi"]))
                 .AddHttpMessageHandler<ConfToolApiAuthorizationMessageHandler>();
 
+            services.AddHttpClient<ISpeakersService, SpeakersServiceHttpClient>(client =>
+                client.BaseAddress = new Uri(config["ConfToolApi"]))
+                .AddHttpMessageHandler<ConfToolApiAuthorizationMessageHandler>();
+
             services.AddMudServices();
         }
     }
