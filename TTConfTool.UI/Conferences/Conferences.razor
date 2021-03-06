@@ -1,5 +1,6 @@
 ﻿@page "/conferences"
 
+@using System.Globalization
 @using TTConfTool.Shared
 @using TTConfTool.Shared.DTO
 @using TTConfTool.Shared.Contracts
@@ -32,6 +33,8 @@
                         <MudSelectItem T="Speaker" Value="speaker">@speaker.FirstName @speaker.LastName</MudSelectItem>
                     }
                 </MudSelect>
+                <MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" Label="Ab (Datum)" DateChanged="FilterByStartDateAsync" DisableToolbar="true" Editable="true" />
+                <MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" Label="Bis (Datum)" DateChanged="FilterByEndDateAsync" DisableToolbar="true" Editable="true" />
             </ToolBarContent>
             <HeaderContent>
                 <MudTh Style="color: white; background-color: #ff584f">Titel</MudTh>
@@ -52,10 +55,10 @@
 @code {
     private List<Conference> _conferences = new List<Conference>();
     private List<Speaker> _speakers = new List<Speaker>();
+    private SearchFilter _filter = new SearchFilter();
     private string _searchString = String.Empty;
     private bool _isLoading = true;
     private bool _isRefreshing = false;
-    private SearchFilter filter = new SearchFilter();
 
     protected override async Task OnInitializedAsync()
     {
@@ -71,7 +74,7 @@
         }
 
         _conferences.Clear();
-        _conferences = await _conferencesClient.GetConferencesAsync(filter);
+        _conferences = await _conferencesClient.GetConferencesAsync(_filter);
 
         _isLoading = false;
         _isRefreshing = false;
@@ -101,13 +104,33 @@
 
     private async Task FilterBySpeakerAsync(Speaker speaker)
     {
-        if(speaker.ID != 0)
+        if (speaker.ID != 0)
         {
-            filter.Value.Add(new KeyValuePair<string, string>("speaker", speaker.ID.ToString()));
+            _filter.Value.Add(new KeyValuePair<string, string>("speaker", speaker.ID.ToString()));
         }
         else
         {
-            filter.Value.Clear();
+            _filter.Value.Clear();
+        }
+
+        await LoadConferencesAsync();
+    }
+
+    private async Task FilterByStartDateAsync(DateTime? dateFrom)
+    {
+        if(dateFrom.HasValue)
+        {
+            _filter.Value.Add(new KeyValuePair<string, string>("dateFrom", dateFrom.Value.ToString()));
+        }
+
+        await LoadConferencesAsync();
+    }
+
+    private async Task FilterByEndDateAsync(DateTime? dateTo)
+    {
+        if (dateTo.HasValue)
+        {
+            _filter.Value.Add(new KeyValuePair<string, string>("dateTo", dateTo.Value.ToString()));
         }
 
         await LoadConferencesAsync();
