@@ -11,8 +11,9 @@
         @{
             var authority = (string)Configuration["Oidc:Authority"];
             var clientId = (string)Configuration["Oidc:ClientId"];
+            var returnUrl = Navigation.BaseUri;
 
-            Navigation.NavigateTo($"{authority}/v2/logout?client_id={clientId}");
+            Navigation.NavigateTo($"{authority}/v2/logout?client_id={clientId}&returnTo={returnUrl}authentication/logout");
         }
     </LogOut>
 </RemoteAuthenticatorView>

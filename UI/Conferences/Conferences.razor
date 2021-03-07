@@ -6,10 +6,25 @@
 @using TTConfTool.Shared.Contracts
 @using Microsoft.AspNetCore.Authorization
 
-@attribute [Authorize]
+@*@attribute [Authorize]*@
 
 @inject IConferencesService _conferencesClient
 @inject ISpeakersService _speakersClient
+
+@{
+    RenderFragment FilterUI = __builder =>
+    {
+        <MudTextField @bind-Value="_searchString" Placeholder="Suchen" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mr-2"></MudTextField>
+        <MudSelect T="Speaker" Label="Speaker" ValueChanged="FilterBySpeakerAsync" Class="mr-2">
+            @foreach (var speaker in _speakers)
+            {
+                <MudSelectItem T="Speaker" Value="speaker">@speaker.FirstName @speaker.LastName</MudSelectItem>
+            }
+        </MudSelect>
+        <MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Ab (Datum)" DateChanged="FilterByStartDateAsync" DisableToolbar="true" Editable="true" Class="mr-2" />
+        <MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Bis (Datum)" DateChanged="FilterByEndDateAsync" DisableToolbar="true" Editable="true" Class="mr-2" />
+    };
+}
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-10">
     <MudText Typo="Typo.h3" GutterBottom="true">Konferenzen</MudText>
@@ -24,23 +39,16 @@
         {
             <MudProgressLinear Color="Color.Primary" Indeterminate="true" />
         }
-        <MudTable Items="_conferences" Hover="true" Elevation="3" Filter="new Func<Conference, bool>(FilterByLocalSearch)">
+
+        <MudTable Items="_conferences" Hover="true" Elevation="3" Filter="FilterByLocalSearch">
             <ToolBarContent>
-                <MudTextField @bind-Value="_searchString" Placeholder="Suchen" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mr-2"></MudTextField>
-                <MudSelect T="Speaker" Label="Speaker" ValueChanged="FilterBySpeakerAsync" Class="mr-2">
-                    @foreach (var speaker in _speakers)
-                    {
-                        <MudSelectItem T="Speaker" Value="speaker">@speaker.FirstName @speaker.LastName</MudSelectItem>
-                    }
-                </MudSelect>
-                <MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Ab (Datum)" DateChanged="FilterByStartDateAsync" DisableToolbar="true" Editable="true"  Class="mr-2" />
-                <MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Bis (Datum)" DateChanged="FilterByEndDateAsync" DisableToolbar="true" Editable="true"  Class="mr-2" />
+                @FilterUI
             </ToolBarContent>
             <HeaderContent>
-                <MudTh Style="color: white; background-color: #ff584f">Titel</MudTh>
-                <MudTh Style="color: white; background-color: #ff584f">Ort</MudTh>
-                <MudTh Style="color: white; background-color: #ff584f">Zeitraum</MudTh>
-                <MudTh Style="color: white; background-color: #ff584f">Link</MudTh>
+                <MudTh Class="mud-theme-primary">Titel</MudTh>
+                <MudTh Class="mud-theme-primary">Ort</MudTh>
+                <MudTh Class="mud-theme-primary">Zeitraum</MudTh>
+                <MudTh Class="mud-theme-primary">Link</MudTh>
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Titel">@context.Title</MudTd>
@@ -50,6 +58,7 @@
             </RowTemplate>
         </MudTable>
     }
+    <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom: 20px; right: 20px" />
 </MudContainer>
 
 @code {
@@ -118,7 +127,7 @@
 
     private async Task FilterByStartDateAsync(DateTime? dateFrom)
     {
-        if(dateFrom.HasValue)
+        if (dateFrom.HasValue)
         {
             _filter.Add(nameof(dateFrom), dateFrom.Value.ToString());
         }

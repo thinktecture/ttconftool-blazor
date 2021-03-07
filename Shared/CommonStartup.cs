@@ -16,16 +16,16 @@ namespace TTConfTool.Shared
             services.AddScoped<ConfToolApiAuthorizationMessageHandler>();
 
             services.AddHttpClient<IConferencesService, ConferencesServiceHttpClient>(client =>
-                client.BaseAddress = new Uri(config["ConfToolApi"]))
-                .AddHttpMessageHandler<ConfToolApiAuthorizationMessageHandler>();
+                client.BaseAddress = new Uri(config["ConfToolApi"]));
+            //.AddHttpMessageHandler<ConfToolApiAuthorizationMessageHandler>();
 
             services.AddHttpClient<IContributionsService, ContributionsServiceHttpClient>(client =>
-                client.BaseAddress = new Uri(config["ConfToolApi"]))
-                .AddHttpMessageHandler<ConfToolApiAuthorizationMessageHandler>();
+                client.BaseAddress = new Uri(config["ConfToolApi"]));
+                //.AddHttpMessageHandler<ConfToolApiAuthorizationMessageHandler>();
 
             services.AddHttpClient<ISpeakersService, SpeakersServiceHttpClient>(client =>
-                client.BaseAddress = new Uri(config["ConfToolApi"]))
-                .AddHttpMessageHandler<ConfToolApiAuthorizationMessageHandler>();
+                client.BaseAddress = new Uri(config["ConfToolApi"]));
+                //.AddHttpMessageHandler<ConfToolApiAuthorizationMessageHandler>();
 
             services.AddMudServices();
         }

@@ -12,8 +12,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.3" />
     <PackageReference Include="MudBlazor" Version="5.0.3" />
-    <PackageReference Include="LiveSharp" Version="1.6.54" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.3" />
   </ItemGroup>
 
   <ItemGroup>
