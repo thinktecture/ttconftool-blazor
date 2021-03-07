@@ -11,7 +11,7 @@
 @inject IConferencesService _conferencesClient
 @inject ISpeakersService _speakersClient
 
-<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-12">
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-10">
     <MudText Typo="Typo.h3" GutterBottom="true">Konferenzen</MudText>
     @if (_isLoading)
     {
@@ -46,7 +46,7 @@
                 <MudTd DataLabel="Titel">@context.Title</MudTd>
                 <MudTd DataLabel="Ort">@context.City</MudTd>
                 <MudTd DataLabel="Zeitraum">@context.DateFrom.ToShortDateString() - @context.DateTo.ToShortDateString()</MudTd>
-                <MudTd><MudLink Href="@context.Url" Underline="Underline.Always">@context.Url</MudLink></MudTd>
+                <MudTd DataLabel="Link"><MudLink Href="@context.Url" Underline="Underline.Always">@context.Url</MudLink></MudTd>
             </RowTemplate>
         </MudTable>
     }

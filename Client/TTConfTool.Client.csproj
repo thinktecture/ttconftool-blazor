@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Configurations>Release;Debug</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>LIVESHARP_DISABLE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,10 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared\TTConfTool.Shared.csproj">
+    <ProjectReference Include="..\UI\TTConfTool.UI.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
-    <ProjectReference Include="..\TTConfTool.UI\TTConfTool.UI.csproj">
+    <ProjectReference Include="..\Shared\TTConfTool.Shared.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
   </ItemGroup>
