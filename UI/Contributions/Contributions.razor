@@ -1,6 +1,7 @@
 ﻿@page "/contributions"
 
 @using System.Collections.Generic
+@using System.Globalization
 @using TTConfTool.Shared.Contracts
 @using TTConfTool.Shared.ViewModels
 @using Microsoft.AspNetCore.Authorization
@@ -9,7 +10,7 @@
 
 @inject IContributionsService _contributionsClient
 
-<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-12">
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-10">
     <MudText Typo="Typo.h3" GutterBottom="true">Contributions</MudText>
     @if (_contributions == null)
     {
@@ -33,7 +34,7 @@
                     <tr @key="contr.ID">
                         <td>@contr.Title</td>
                         <td>@contr.SpeakersString</td>
-                        <td>@contr.Date.ToShortDateString()</td>
+                        <td>@contr.Date.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)</td>
                         <td><a href="@contr.Conference?.Url" target="_blank">@contr.Conference?.Title</a></td>
                         <td>@contr.Type</td>
                         <td>@contr.TagsString</td>
@@ -60,7 +61,7 @@
                     <MudTd DataLabel="Tags">@context.Tags</MudTd>
                 </RowTemplate>
             </MudTable>*@
-        }
+    }
 </MudContainer>
 
 @code {

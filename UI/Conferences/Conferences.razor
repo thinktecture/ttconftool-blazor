@@ -10,6 +10,7 @@
 
 @inject IConferencesService _conferencesClient
 @inject ISpeakersService _speakersClient
+@inject IDialogService _dialogService
 
 @{
     RenderFragment FilterUI = __builder =>
@@ -17,9 +18,9 @@
         <MudTextField @bind-Value="_searchString" Placeholder="Suchen" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mr-2"></MudTextField>
         <MudSelect T="Speaker" Label="Speaker" ValueChanged="FilterBySpeakerAsync" Class="mr-2">
             @foreach (var speaker in _speakers)
-            {
+                    {
                 <MudSelectItem T="Speaker" Value="speaker">@speaker.FirstName @speaker.LastName</MudSelectItem>
-            }
+                    }
         </MudSelect>
         <MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Ab (Datum)" DateChanged="FilterByStartDateAsync" DisableToolbar="true" Editable="true" Class="mr-2" />
         <MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Bis (Datum)" DateChanged="FilterByEndDateAsync" DisableToolbar="true" Editable="true" Class="mr-2" />
@@ -53,12 +54,12 @@
             <RowTemplate>
                 <MudTd DataLabel="Titel">@context.Title</MudTd>
                 <MudTd DataLabel="Ort">@context.City</MudTd>
-                <MudTd DataLabel="Zeitraum">@context.DateFrom.ToShortDateString() - @context.DateTo.ToShortDateString()</MudTd>
+                <MudTd DataLabel="Zeitraum">@context.DateFrom.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture) - @context.DateTo.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)</MudTd>
                 <MudTd DataLabel="Link"><MudLink Href="@context.Url" Underline="Underline.Always">@context.Url</MudLink></MudTd>
             </RowTemplate>
         </MudTable>
     }
-    <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom: 20px; right: 20px" />
+    <MudFab OnClick="AddConference" Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position: fixed; bottom: 20px; right: 20px" />
 </MudContainer>
 
 @code {
@@ -73,6 +74,11 @@
     {
         await LoadConferencesAsync();
         await LoadSpeakersAsync();
+    }
+
+    private void AddConference()
+    {
+        _dialogService.Show<ConferenceDetails>("Neue Konferenz");
     }
 
     private async Task LoadConferencesAsync()
