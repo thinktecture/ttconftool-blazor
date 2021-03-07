@@ -1,1 +1,1 @@
-# blazor-wasm-grpc-code-first
+# TTConfTool client built with Blazor WASM
