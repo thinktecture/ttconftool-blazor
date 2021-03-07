@@ -33,7 +33,7 @@
                     <tr @key="contr.ID">
                         <td>@contr.Title</td>
                         <td>@contr.SpeakersString</td>
-                        <td>@contr.Date</td>
+                        <td>@contr.Date.ToShortDateString()</td>
                         <td><a href="@contr.Conference?.Url" target="_blank">@contr.Conference?.Title</a></td>
                         <td>@contr.Type</td>
                         <td>@contr.TagsString</td>
