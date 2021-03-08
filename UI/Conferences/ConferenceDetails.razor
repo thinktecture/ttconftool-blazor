@@ -1,4 +1,5 @@
-﻿@using TTConfTool.Shared.DTO
+﻿@using TTConfTool.Shared
+@using TTConfTool.Shared.DTO
 
 <MudDialog>
     <TitleContent>
@@ -11,7 +12,7 @@
             <MudSelect T="Country" Label="Land" Required="true">
                 @foreach (var country in Enum.GetValues<Country>())
                 {
-                    <MudSelectItem T="Country" Value="country">@country</MudSelectItem>
+                    <MudSelectItem T="Country" Value="country">@country.GetDisplayName()</MudSelectItem>
                 }
             </MudSelect>
         </MudForm>
