@@ -3,22 +3,19 @@
 @using TTConfTool.Shared.DTO
 
 <MudDialog>
-    <TitleContent>
-        <MudText Typo="Typo.h6">Konferenz</MudText>
-    </TitleContent>
     <DialogContent>
         <MudForm @ref="_form" @bind-IsValid="@_success" @bind-Errors="@_errors">
-            <MudTextField T="string" Label="Titel" @bind-Value="_conference.Title" Required="true" RequiredError="Titel wird benötigt." />
-            <MudTextField T="string" Label="Stadt" @bind-Value="_conference.City" Required="true" RequiredError="Stadt wird benötigt." />
-            <MudSelect T="Country" Label="Land" @bind-Value="_conference.Country" Required="true">
+            <MudTextField Label="Titel" @bind-Value="Conference.Title" Required="true" RequiredError="Titel wird benötigt." />
+            <MudTextField Label="Stadt" @bind-Value="Conference.City" Required="true" RequiredError="Stadt wird benötigt." />
+            <MudSelect Label="Land" @bind-Value="Conference.Country" Required="true">
                 @foreach (var country in Enum.GetValues<Country>())
                 {
-                    <MudSelectItem T="Country" Value="country">@country.GetDisplayName()</MudSelectItem>
+                    <MudSelectItem Value="country">@country.GetDisplayName()</MudSelectItem>
                 }
             </MudSelect>
-            <MudDatePicker @bind-Date="_conference.DateFrom" Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Von (Datum)" DisableToolbar="true" Editable="true" />
-            <MudDatePicker @bind-Date="_conference.DateTo" Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Bis (Datum)" DisableToolbar="true" Editable="true" />
-            <MudTextField @bind-Value="_conference.Url" T="string" Label="Website" />
+            <MudDatePicker @bind-Date="Conference.DateFrom" Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Von (Datum)" DisableToolbar="true" Editable="true" />
+            <MudDatePicker @bind-Date="Conference.DateTo" Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Bis (Datum)" DisableToolbar="true" Editable="true" />
+            <MudTextField @bind-Value="Conference.Url" T="string" Label="Website" />
         </MudForm>
     </DialogContent>
     <DialogActions>
@@ -29,13 +26,14 @@
 
 @code {
     [CascadingParameter]
-    MudDialogInstance MudDialog { get; set; }
+    public MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public Conference Conference { get; set; } = new Conference();
 
     private bool _success;
     private string[] _errors = { };
     private MudForm _form;
-
-    private Conference _conference = new Conference();
 
     private void Cancel()
     {
@@ -44,6 +42,6 @@
 
     private void Save()
     {
-        MudDialog.Close(DialogResult.Ok<Conference>(_conference));
+        MudDialog.Close(DialogResult.Ok<Conference>(Conference));
     }
 }

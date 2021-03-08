@@ -28,7 +28,7 @@
 }
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-10">
-    <MudText Typo="Typo.h3" GutterBottom="true">Konferenzen</MudText>
+    <MudText Typo="Typo.h4" GutterBottom="true">Konferenzen</MudText>
     @if (_isLoading)
     {
         <MudProgressCircular Color="Color.Default" Indeterminate="true" />
@@ -60,12 +60,14 @@
                 <MudTh Class="mud-theme-primary">Ort</MudTh>
                 <MudTh Class="mud-theme-primary">Zeitraum</MudTh>
                 <MudTh Class="mud-theme-primary">Link</MudTh>
+                <MudTh Class="mud-theme-primary"></MudTh>
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Titel">@context.Title</MudTd>
                 <MudTd DataLabel="Ort">@context.City</MudTd>
                 <MudTd DataLabel="Zeitraum">@context.DateFrom?.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture) - @context.DateTo?.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)</MudTd>
                 <MudTd DataLabel="Website"><MudLink Href="@context.Url" Underline="Underline.Always">Link</MudLink></MudTd>
+                <MudTd><MudIcon Icon="@Icons.Material.Filled.Edit" @onclick="() => EditConferenceAsync(context)" /></MudTd>
             </RowTemplate>
         </MudTable>
     }
@@ -84,6 +86,20 @@
     {
         await LoadConferencesAsync();
         await LoadSpeakersAsync();
+    }
+
+    private async Task EditConferenceAsync(Conference conference)
+    {
+        var parameters = new DialogParameters { ["Conference"] = conference };
+        var dialog = _dialogService.Show<ConferenceDetails>("Konferenz bearbeiten", parameters, new DialogOptions { DisableBackdropClick = true });
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            var updatedConference = (Conference)result.Data;
+            await _conferencesClient.UpdateConferenceAsync(updatedConference);
+            await LoadConferencesAsync();
+        }
     }
 
     private async Task AddConferenceAsync()

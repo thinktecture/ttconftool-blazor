@@ -8,5 +8,6 @@ namespace TTConfTool.Shared.Contracts
     {
         Task<List<Conference>> GetConferencesAsync(SearchFilter filter = null);
         Task AddConferenceAsync(Conference conference);
+        Task UpdateConferenceAsync(Conference conference);
     }
 }

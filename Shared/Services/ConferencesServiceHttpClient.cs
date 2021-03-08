@@ -28,5 +28,10 @@ namespace TTConfTool.Shared.Services
         {
             await _httpClient.PostAsJsonAsync<Conference>("conferences", conference);
         }
+
+        public async Task UpdateConferenceAsync(Conference conference)
+        {
+            await _httpClient.PutAsJsonAsync<Conference>("conferences/" + conference.ID, conference);
+        }
     }
 }
