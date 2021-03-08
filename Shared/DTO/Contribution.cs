@@ -12,7 +12,7 @@ namespace TTConfTool.Shared.DTO
         public string Title { get; set; }
         [JsonConverter(typeof(ConfToolDateTimeOffsetConverter))]
         public DateTime Date { get; set; }
-        public Country Language { get; set; }
+        public string Language { get; set; }
         public bool Billed { get; set; }
         public string Abstract { get; set; }
         public List<Media> Media { get; set; }

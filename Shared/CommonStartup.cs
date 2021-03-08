@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 using System;
 using TTConfTool.Shared.Contracts;
+using TTConfTool.Shared.DTO;
 using TTConfTool.Shared.Services;
 
 namespace TTConfTool.Shared
@@ -25,7 +26,7 @@ namespace TTConfTool.Shared
 
             services.AddHttpClient<ISpeakersService, SpeakersServiceHttpClient>(client =>
                 client.BaseAddress = new Uri(config["ConfToolApi"]));
-                //.AddHttpMessageHandler<ConfToolApiAuthorizationMessageHandler>();
+            //.AddHttpMessageHandler<ConfToolApiAuthorizationMessageHandler>();
 
             services.AddMudServices();
         }

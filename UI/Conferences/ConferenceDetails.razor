@@ -1,4 +1,6 @@
-﻿<MudDialog>
+﻿@using TTConfTool.Shared.DTO
+
+<MudDialog>
     <TitleContent>
         <MudText Typo="Typo.h6">Konferenz</MudText>
     </TitleContent>
@@ -6,6 +8,12 @@
         <MudForm @ref="_form" @bind-IsValid="@_success" @bind-Errors="@_errors">
             <MudTextField T="string" Label="Titel" Required="true" RequiredError="Titel wird benötigt." />
             <MudTextField T="string" Label="Stadt" Required="true" RequiredError="Stadt wird benötigt." />
+            <MudSelect T="Country" Label="Land" Required="true">
+                @foreach (var country in Enum.GetValues<Country>())
+                {
+                    <MudSelectItem T="Country" Value="country">@country</MudSelectItem>
+                }
+            </MudSelect>
         </MudForm>
     </DialogContent>
     <DialogActions>
@@ -24,11 +32,9 @@
 
     private void Cancel()
     {
-
     }
 
     private void Save()
     {
-
     }
 }

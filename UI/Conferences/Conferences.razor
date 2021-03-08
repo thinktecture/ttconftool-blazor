@@ -55,7 +55,9 @@
                 <MudTd DataLabel="Titel">@context.Title</MudTd>
                 <MudTd DataLabel="Ort">@context.City</MudTd>
                 <MudTd DataLabel="Zeitraum">@context.DateFrom.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture) - @context.DateTo.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)</MudTd>
-                <MudTd DataLabel="Link"><MudLink Href="@context.Url" Underline="Underline.Always">@context.Url</MudLink></MudTd>
+                <MudTd DataLabel="Link" Style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    <MudLink Href="@context.Url" Underline="Underline.Always">@context.Url
+                </MudLink></MudTd>
             </RowTemplate>
         </MudTable>
     }
