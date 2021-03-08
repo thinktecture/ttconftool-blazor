@@ -41,10 +41,20 @@
             <MudProgressLinear Color="Color.Primary" Indeterminate="true" />
         }
 
-        <MudTable Items="_conferences" Hover="true" Elevation="3" Filter="FilterByLocalSearch">
-            <ToolBarContent>
+        <MudPaper Class="mb-4">
+            <div class="d-none d-sm-flex d-md-flex d-lg-flex d-xl-flex mx-4 pb-4">
                 @FilterUI
-            </ToolBarContent>
+            </div>
+            <div class="d-sm-none mud-width-full">
+                <MudExpansionPanels Elevation="0">
+                    <MudExpansionPanel Text="Filter">
+                        @FilterUI
+                    </MudExpansionPanel>
+                </MudExpansionPanels>
+            </div>
+        </MudPaper>
+
+        <MudTable Items="_conferences" Hover="true" Elevation="3" Filter="FilterByLocalSearch">
             <HeaderContent>
                 <MudTh Class="mud-theme-primary">Titel</MudTh>
                 <MudTh Class="mud-theme-primary">Ort</MudTh>

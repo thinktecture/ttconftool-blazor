@@ -27,7 +27,6 @@ namespace TTConfTool.Shared.Services
 
         public async Task AddConferenceAsync(Conference conference)
         {
-            conference.CfpStart = DateTime.
             await _httpClient.PostAsJsonAsync<Conference>("conferences", conference);
         }
     }

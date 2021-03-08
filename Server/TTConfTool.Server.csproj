@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Configurations>Release;Debug</Configurations>
+    <UserSecretsId>84514040-7383-4e15-acfe-952343e88890</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -11,7 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.3" />
-    <PackageReference Include="MudBlazor" Version="5.0.4" />
+    <PackageReference Include="MudBlazor" Version="5.0.5" />
   </ItemGroup>
 
   <ItemGroup>
