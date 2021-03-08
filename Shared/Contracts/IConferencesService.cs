@@ -7,5 +7,6 @@ namespace TTConfTool.Shared.Contracts
     public interface IConferencesService
     {
         Task<List<Conference>> GetConferencesAsync(SearchFilter filter = null);
+        Task AddConferenceAsync(Conference conference);
     }
 }

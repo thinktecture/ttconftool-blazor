@@ -1,4 +1,5 @@
-﻿@using TTConfTool.Shared
+﻿@using System.Globalization
+@using TTConfTool.Shared
 @using TTConfTool.Shared.DTO
 
 <MudDialog>
@@ -7,19 +8,22 @@
     </TitleContent>
     <DialogContent>
         <MudForm @ref="_form" @bind-IsValid="@_success" @bind-Errors="@_errors">
-            <MudTextField T="string" Label="Titel" Required="true" RequiredError="Titel wird benötigt." />
-            <MudTextField T="string" Label="Stadt" Required="true" RequiredError="Stadt wird benötigt." />
-            <MudSelect T="Country" Label="Land" Required="true">
+            <MudTextField T="string" Label="Titel" @bind-Value="_conference.Title" Required="true" RequiredError="Titel wird benötigt." />
+            <MudTextField T="string" Label="Stadt" @bind-Value="_conference.City" Required="true" RequiredError="Stadt wird benötigt." />
+            <MudSelect T="Country" Label="Land" @bind-Value="_conference.Country" Required="true">
                 @foreach (var country in Enum.GetValues<Country>())
                 {
                     <MudSelectItem T="Country" Value="country">@country.GetDisplayName()</MudSelectItem>
                 }
             </MudSelect>
+            <MudDatePicker @bind-Date="_conference.DateFrom" Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Von (Datum)" DisableToolbar="true" Editable="true" />
+            <MudDatePicker @bind-Date="_conference.DateTo" Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Bis (Datum)" DisableToolbar="true" Editable="true" />
+            <MudTextField @bind-Value="_conference.Url" T="string" Label="Website" />
         </MudForm>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Abbrechen</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Save">Speichern</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Save" Disabled="@(!_success)">Speichern</MudButton>
     </DialogActions>
 </MudDialog>
 
@@ -31,11 +35,15 @@
     private string[] _errors = { };
     private MudForm _form;
 
+    private Conference _conference = new Conference();
+
     private void Cancel()
     {
+        MudDialog.Cancel();
     }
 
     private void Save()
     {
+        MudDialog.Close(DialogResult.Ok<Conference>(_conference));
     }
 }

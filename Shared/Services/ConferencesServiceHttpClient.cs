@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -22,6 +23,12 @@ namespace TTConfTool.Shared.Services
             var queryString = QueryString.Create(filter.GetValue());
             
             return (await _httpClient.GetFromJsonAsync<ConferencesResponse>("conferences" + queryString.ToUriComponent())).Conferences;
+        }
+
+        public async Task AddConferenceAsync(Conference conference)
+        {
+            conference.CfpStart = DateTime.
+            await _httpClient.PostAsJsonAsync<Conference>("conferences", conference);
         }
     }
 }
