@@ -1,0 +1,43 @@
+﻿@code {
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Console.WriteLine("### OnAfterRender");
+        base.OnAfterRender(firstRender);
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        Console.WriteLine("### OnAfterRenderAsync");
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine("### OnInitialized");
+        base.OnInitialized();
+    }
+
+    protected override void OnParametersSet()
+    {
+        Console.WriteLine("### OnParametersSet");
+        base.OnParametersSet();
+    }
+
+    protected override Task OnParametersSetAsync()
+    {
+        Console.WriteLine("### OnParametersSetAsync");
+        return base.OnParametersSetAsync();
+    }
+
+    protected override bool ShouldRender()
+    {
+        Console.WriteLine("### ShouldRender");
+        return base.ShouldRender();
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        Console.WriteLine("### OnInitializedAsync");
+        return base.OnInitializedAsync();
+    }
+}

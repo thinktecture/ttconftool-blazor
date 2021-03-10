@@ -1,11 +1,10 @@
 ﻿@page "/conferences"
-
+ 
 @using System.Globalization
 @using TTConfTool.Shared
 @using TTConfTool.Shared.DTO
 @using TTConfTool.Shared.Contracts
 @using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.WebUtilities
 
 @attribute [Authorize]
 
@@ -138,16 +137,8 @@
         _speakers.Insert(0, new Speaker { FirstName = "(alle)", ID = 0 });
     }
 
-    private void SetQueryString(string key, string value)
-    {
-        var query = new Dictionary<string, string> { { key, value } };
-        _navManager.NavigateTo(QueryHelpers.AddQueryString(_navManager.Uri, query));
-    }
-
     private bool FilterByLocalSearch(Conference conference)
     {
-        SetQueryString("search", _searchString);
-
         if (string.IsNullOrWhiteSpace(_searchString))
         {
             return true;
@@ -163,8 +154,6 @@
 
     private async Task FilterBySpeakerAsync(Speaker speaker)
     {
-        SetQueryString("speaker", speaker.ID.ToString());
-
         if (speaker.ID != 0)
         {
             _filter.Add(nameof(speaker), speaker.ID.ToString());
@@ -179,8 +168,6 @@
 
     private async Task FilterByStartDateAsync(DateTime? dateFrom)
     {
-        SetQueryString("fromDate", dateFrom.ToString());
-
         if (dateFrom.HasValue)
         {
             _filter.Add(nameof(dateFrom), dateFrom.Value.ToString());
@@ -191,8 +178,6 @@
 
     private async Task FilterByEndDateAsync(DateTime? dateTo)
     {
-        SetQueryString("fromDate", dateTo.ToString());
-
         if (dateTo.HasValue)
         {
             _filter.Add(nameof(dateTo), dateTo.Value.ToString());
