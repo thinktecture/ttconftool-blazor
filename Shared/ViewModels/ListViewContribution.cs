@@ -11,7 +11,7 @@ namespace TTConfTool.Shared.ViewModels
         public long ID { get; set; }
         public ContributionType Type { get; set; }
         public string Title { get; set; }
-        [JsonConverter(typeof(ConfToolDateTimeOffsetConverter))]
+        [JsonConverter(typeof(ConfToolDateTimeConverter))]
         public DateTime Date { get; set; }
         public Language Language { get; set; }
         public bool Billed { get; set; }

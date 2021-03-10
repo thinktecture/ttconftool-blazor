@@ -10,8 +10,8 @@ namespace TTConfTool.Shared.DTO
         public long ID { get; set; }
         public ContributionType Type { get; set; }
         public string Title { get; set; }
-        [JsonConverter(typeof(ConfToolDateTimeOffsetConverter))]
-        public DateTime Date { get; set; }
+        [JsonConverter(typeof(ConfToolDateTimeConverter))]
+        public DateTime? Date { get; set; }
         public string Language { get; set; }
         public bool Billed { get; set; }
         public string Abstract { get; set; }

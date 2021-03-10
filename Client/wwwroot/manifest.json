@@ -1,0 +1,16 @@
+{
+  "name": "TT ConfTool",
+  "short_name": "TT ConfTool",
+  "description": "Franconia dolor ipsum sit amet, Ziebeleskäs fei sacht, bassd scho Halbs Hemmerd Debb Schbodzn Gwaaf. Oggs vo der Fleischbrüggn Boodwanna do schau her groom Abodeng? Grawallschachdl Fleischkäichla Schloudfeecher nächerds! Bridschn, bugglhadd Schdumhogger Barragn Fraa glei fängsd der anne Misdn. Fiesl mal ned dran rum adee Schdrom bassd scho.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#1294e0",
+  "theme_color": "darkslategrey",
+  "icons": [
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

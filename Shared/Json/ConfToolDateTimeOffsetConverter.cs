@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace TTConfTool.Shared.Json
 {
-    public class ConfToolDateTimeOffsetConverter : JsonConverter<DateTime?>
+    public class ConfToolDateTimeConverter : JsonConverter<DateTime?>
     {
         private const string _dateFormat1 = "yyyy-MM-dd HH:mm:ss";
         private const string _dateFormat2 = "yyyy-MM-dd HH:mm:ss.fffffff";

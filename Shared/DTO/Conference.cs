@@ -9,18 +9,18 @@ namespace TTConfTool.Shared.DTO
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)] 
         public long ID { get; set; }
         public string Title { get; set; }
-        [JsonConverter(typeof(ConfToolDateTimeOffsetConverter))] 
+        [JsonConverter(typeof(ConfToolDateTimeConverter))] 
         public DateTime? DateFrom { get; set; }
-        [JsonConverter(typeof(ConfToolDateTimeOffsetConverter))] 
+        [JsonConverter(typeof(ConfToolDateTimeConverter))] 
         public DateTime? DateTo { get; set; }
         public Country Country { get; set; }
         public string City { get; set; }
         public string Url { get; set; }
         public int ContributionsCount { get; set; }
         public int SpeakerCount { get; set; }
-        [JsonConverter(typeof(ConfToolDateTimeOffsetConverter))] 
+        [JsonConverter(typeof(ConfToolDateTimeConverter))] 
         public DateTime? CfpStart { get; set; }
-        [JsonConverter(typeof(ConfToolDateTimeOffsetConverter))] 
+        [JsonConverter(typeof(ConfToolDateTimeConverter))] 
         public DateTime? CfpDeadline { get; set; }
     }
 }
