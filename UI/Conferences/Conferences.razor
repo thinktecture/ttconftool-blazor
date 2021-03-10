@@ -5,25 +5,27 @@
 @using TTConfTool.Shared.DTO
 @using TTConfTool.Shared.Contracts
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.WebUtilities
 
 @attribute [Authorize]
 
 @inject IConferencesService _conferencesClient
 @inject ISpeakersService _speakersClient
 @inject IDialogService _dialogService
+@inject NavigationManager _navManager
 
 @{
     RenderFragment FilterUI = __builder =>
     {
-        <MudTextField @bind-Value="_searchString" Placeholder="Suchen" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mr-2"></MudTextField>
-        <MudSelect T="Speaker" Label="Speaker" ValueChanged="FilterBySpeakerAsync" Class="mr-2">
-            @foreach (var speaker in _speakers)
-             {
-                <MudSelectItem T="Speaker" Value="speaker">@speaker.FirstName @speaker.LastName</MudSelectItem>
-             }
-        </MudSelect>
-        <MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Von (Datum)" DateChanged="FilterByStartDateAsync" DisableToolbar="true" Editable="true" Class="mr-2" />
-        <MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Bis (Datum)" DateChanged="FilterByEndDateAsync" DisableToolbar="true" Editable="true" Class="mr-2" />
+<MudTextField @bind-Value="_searchString" Placeholder="Suchen" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mr-2"></MudTextField>
+<MudSelect T="Speaker" Label="Speaker" ValueChanged="FilterBySpeakerAsync" Class="mr-2">
+    @foreach (var speaker in _speakers)
+            {
+        <MudSelectItem T="Speaker" Value="speaker">@speaker.FirstName @speaker.LastName</MudSelectItem>
+            }
+</MudSelect>
+<MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Von (Datum)" DateChanged="FilterByStartDateAsync" DisableToolbar="true" Editable="true" Class="mr-2" />
+<MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Bis (Datum)" DateChanged="FilterByEndDateAsync" DisableToolbar="true" Editable="true" Class="mr-2" />
     };
 }
 
@@ -136,8 +138,16 @@
         _speakers.Insert(0, new Speaker { FirstName = "(alle)", ID = 0 });
     }
 
+    private void SetQueryString(string key, string value)
+    {
+        var query = new Dictionary<string, string> { { key, value } };
+        _navManager.NavigateTo(QueryHelpers.AddQueryString(_navManager.Uri, query));
+    }
+
     private bool FilterByLocalSearch(Conference conference)
     {
+        SetQueryString("search", _searchString);
+
         if (string.IsNullOrWhiteSpace(_searchString))
         {
             return true;
@@ -153,6 +163,8 @@
 
     private async Task FilterBySpeakerAsync(Speaker speaker)
     {
+        SetQueryString("speaker", speaker.ID.ToString());
+
         if (speaker.ID != 0)
         {
             _filter.Add(nameof(speaker), speaker.ID.ToString());
@@ -167,6 +179,8 @@
 
     private async Task FilterByStartDateAsync(DateTime? dateFrom)
     {
+        SetQueryString("fromDate", dateFrom.ToString());
+
         if (dateFrom.HasValue)
         {
             _filter.Add(nameof(dateFrom), dateFrom.Value.ToString());
@@ -177,6 +191,8 @@
 
     private async Task FilterByEndDateAsync(DateTime? dateTo)
     {
+        SetQueryString("fromDate", dateTo.ToString());
+
         if (dateTo.HasValue)
         {
             _filter.Add(nameof(dateTo), dateTo.Value.ToString());
