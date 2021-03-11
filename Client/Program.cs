@@ -15,6 +15,7 @@ namespace TTConfTool.Client
             typeof(App).ToString();
 
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
+            builder.RootComponents.Add<App>("app");
 
             builder.Services.AddAuth0Authentication(options =>
             {
