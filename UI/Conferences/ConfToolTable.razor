@@ -1,0 +1,188 @@
+﻿@page "/conferences"
+ 
+@using System.Globalization
+@using TTConfTool.Shared
+@using TTConfTool.Shared.DTO
+@using TTConfTool.Shared.Contracts
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+@inject IConferencesService _conferencesClient
+@inject ISpeakersService _speakersClient
+@inject IDialogService _dialogService
+@inject NavigationManager _navManager
+
+@{
+    RenderFragment FilterUI = __builder =>
+    {
+<MudTextField @bind-Value="_searchString" Placeholder="Suchen" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mr-2"></MudTextField>
+<MudSelect T="Speaker" Label="Speaker" ValueChanged="FilterBySpeakerAsync" Class="mr-2">
+    @foreach (var speaker in _speakers)
+            {
+        <MudSelectItem T="Speaker" Value="speaker">@speaker.FirstName @speaker.LastName</MudSelectItem>
+            }
+</MudSelect>
+<MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Von (Datum)" DateChanged="FilterByStartDateAsync" DisableToolbar="true" Editable="true" Class="mr-2" />
+<MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Bis (Datum)" DateChanged="FilterByEndDateAsync" DisableToolbar="true" Editable="true" Class="mr-2" />
+    };
+}
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-10">
+    <MudText Typo="Typo.h4" GutterBottom="true">Konferenzen</MudText>
+    @if (_isLoading)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+        <MudIcon Icon="@Icons.Material.Filled.Refresh" @onclick="LoadConferencesAsync" />
+        @if (_isRefreshing)
+        {
+            <MudProgressLinear Color="Color.Primary" Indeterminate="true" />
+        }
+
+        <MudPaper Class="mb-4">
+            <div class="d-none d-sm-flex d-md-flex d-lg-flex d-xl-flex mx-4 pb-4">
+                @FilterUI
+            </div>
+            <div class="d-sm-none mud-width-full">
+                <MudExpansionPanels Elevation="0">
+                    <MudExpansionPanel Text="Filter">
+                        @FilterUI
+                    </MudExpansionPanel>
+                </MudExpansionPanels>
+            </div>
+        </MudPaper>
+
+        <MudTable Items="_conferences" Hover="true" Elevation="3" Filter="FilterByLocalSearch">
+            <HeaderContent>
+                <MudTh Class="mud-theme-primary">Titel</MudTh>
+                <MudTh Class="mud-theme-primary">Ort</MudTh>
+                <MudTh Class="mud-theme-primary">Zeitraum</MudTh>
+                <MudTh Class="mud-theme-primary">Link</MudTh>
+                <MudTh Class="mud-theme-primary"></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Titel">@context.Title</MudTd>
+                <MudTd DataLabel="Ort">@context.City</MudTd>
+                <MudTd DataLabel="Zeitraum">@context.DateFrom?.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture) - @context.DateTo?.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)</MudTd>
+                <MudTd DataLabel="Website"><MudLink Href="@context.Url" Underline="Underline.Always">Link</MudLink></MudTd>
+                <MudTd><MudIcon Icon="@Icons.Material.Filled.Edit" @onclick="() => EditConferenceAsync(context)" /></MudTd>
+            </RowTemplate>
+        </MudTable>
+    }
+    <MudFab OnClick="AddConferenceAsync" Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position: fixed; bottom: 20px; right: 20px" />
+</MudContainer>
+
+@code {
+    private List<Conference> _conferences = new List<Conference>();
+    private List<Speaker> _speakers = new List<Speaker>();
+    private SearchFilter _filter = new SearchFilter();
+    private string _searchString = String.Empty;
+    private bool _isLoading = true;
+    private bool _isRefreshing = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadConferencesAsync();
+        await LoadSpeakersAsync();
+    }
+
+    private async Task EditConferenceAsync(Conference conference)
+    {
+        var parameters = new DialogParameters { ["Conference"] = conference };
+        var dialog = _dialogService.Show<ConferenceDetails>("Konferenz bearbeiten", parameters, new DialogOptions { DisableBackdropClick = true });
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            var updatedConference = (Conference)result.Data;
+            await _conferencesClient.UpdateConferenceAsync(updatedConference);
+            await LoadConferencesAsync();
+        }
+    }
+
+    private async Task AddConferenceAsync()
+    {
+        var dialog = _dialogService.Show<ConferenceDetails>("Neue Konferenz", new DialogOptions { DisableBackdropClick = true });
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            var conference = (Conference)result.Data;
+            await _conferencesClient.AddConferenceAsync(conference);
+            await LoadConferencesAsync();
+        }
+    }
+
+    private async Task LoadConferencesAsync()
+    {
+        if (!_isLoading)
+        {
+            _isRefreshing = true;
+        }
+
+        _conferences.Clear();
+        _conferences = await _conferencesClient.GetConferencesAsync(_filter);
+
+        _isLoading = false;
+        _isRefreshing = false;
+    }
+
+    private async Task LoadSpeakersAsync()
+    {
+        _speakers = await _speakersClient.GetSpeakersAsync();
+        _speakers = _speakers.OrderBy(s => s.FirstName).ToList();
+        _speakers.Insert(0, new Speaker { FirstName = "(alle)", ID = 0 });
+    }
+
+    private bool FilterByLocalSearch(Conference conference)
+    {
+        if (string.IsNullOrWhiteSpace(_searchString))
+        {
+            return true;
+        }
+
+        if (conference.Title.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private async Task FilterBySpeakerAsync(Speaker speaker)
+    {
+        if (speaker.ID != 0)
+        {
+            _filter.Add(nameof(speaker), speaker.ID.ToString());
+        }
+        else
+        {
+            _filter.Clear();
+        }
+
+        await LoadConferencesAsync();
+    }
+
+    private async Task FilterByStartDateAsync(DateTime? dateFrom)
+    {
+        if (dateFrom.HasValue)
+        {
+            _filter.Add(nameof(dateFrom), dateFrom.Value.ToString());
+        }
+
+        await LoadConferencesAsync();
+    }
+
+    private async Task FilterByEndDateAsync(DateTime? dateTo)
+    {
+        if (dateTo.HasValue)
+        {
+            _filter.Add(nameof(dateTo), dateTo.Value.ToString());
+        }
+
+        await LoadConferencesAsync();
+    }
+}
