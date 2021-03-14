@@ -13,7 +13,7 @@
             var clientId = (string)Configuration["Oidc:ClientId"];
             var returnUrl = Navigation.BaseUri;
 
-            Navigation.NavigateTo($"{authority}/v2/logout?client_id={clientId}&returnTo={returnUrl}authentication/logout");
+            Navigation.NavigateTo($"{authority}/v2/logout?client_id={clientId}&returnTo={returnUrl}");
         }
     </LogOut>
 </RemoteAuthenticatorView>

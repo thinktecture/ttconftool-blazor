@@ -1,0 +1,92 @@
+﻿@using System.Globalization
+@using TTConfTool.Shared.DTO
+
+@typeparam TItem
+
+@{
+    RenderFragment FilterUI = __builder =>
+    {
+        <MudTextField @bind-Value="SearchString" Placeholder="Suchen" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mr-2"></MudTextField>
+        <MudSelect T="Speaker" Label="Speaker" ValueChanged="FilterBySpeakerAsync" Class="mr-2">
+            @foreach (var speaker in Speakers)
+                    {
+                <MudSelectItem T="Speaker" Value="speaker">@speaker.FirstName @speaker.LastName</MudSelectItem>
+                    }
+        </MudSelect>
+        <MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Von (Datum)" DateChanged="FilterByStartDateAsync" DisableToolbar="true" Editable="true" Class="mr-2" />
+        <MudDatePicker Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Bis (Datum)" DateChanged="FilterByEndDateAsync" DisableToolbar="true" Editable="true" Class="mr-2" />
+    };
+}
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-10">
+    <MudText Typo="Typo.h4" GutterBottom="true">@Title</MudText>
+    @if (IsLoading)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+        <MudIcon Icon="@Icons.Material.Filled.Refresh" @onclick="LoadItemsAsync" />
+        @if (IsRefreshing)
+        {
+            <MudProgressLinear Color="Color.Primary" Indeterminate="true" />
+        }
+
+        <MudPaper Class="mb-4">
+            <div class="d-none d-sm-flex d-md-flex d-lg-flex d-xl-flex mx-4 pb-4">
+                @FilterUI
+            </div>
+            <div class="d-sm-none mud-width-full">
+                <MudExpansionPanels Elevation="0">
+                    <MudExpansionPanel Text="Filter">
+                        @FilterUI
+                    </MudExpansionPanel>
+                </MudExpansionPanels>
+            </div>
+        </MudPaper>
+
+        <MudTable Items="Items" Hover="true" Elevation="3" Filter="FilterByLocalSearch">
+            <HeaderContent>
+                @HeaderContent
+            </HeaderContent>
+            
+            <RowTemplate>
+                @RowTemplate
+            </RowTemplate>
+        </MudTable>
+    }
+    <MudFab OnClick="AddItemAsync" Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position: fixed; bottom: 20px; right: 20px" />
+</MudContainer>
+
+@code {
+    [Parameter]
+    public string Title { get; set; }
+    [Parameter]
+    public bool IsRefreshing { get; set; }
+    [Parameter]
+    public bool IsLoading { get; set; }
+    [Parameter]
+    public string SearchString { get; set; }
+    [Parameter]
+    public List<TItem> Items { get; set; }
+    [Parameter]
+    public List<Speaker> Speakers { get; set; }
+    [Parameter]
+    public RenderFragment HeaderContent { get; set; }
+    [Parameter]
+    public RenderFragment<TItem> RowTemplate { get; set; }
+    [Parameter]
+    public EventCallback<Speaker> FilterBySpeakerAsync { get; set; }
+    [Parameter]
+    public EventCallback<DateTime?> FilterByStartDateAsync { get; set; }
+    [Parameter]
+    public EventCallback<DateTime?> FilterByEndDateAsync { get; set; }
+    [Parameter]
+    public Func<TItem, bool> FilterByLocalSearch { get; set; }
+    [Parameter]
+    public EventCallback LoadItemsAsync { get; set; }
+    @*[Parameter]
+    public EventCallback<TItem> EditItemAsync { get; set; }*@
+    [Parameter]
+    public EventCallback AddItemAsync { get; set; }
+}
