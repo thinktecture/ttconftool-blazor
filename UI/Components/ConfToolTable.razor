@@ -45,14 +45,7 @@
             </div>
         </MudPaper>
 
-        <MudTable Items="Items" Hover="true" Elevation="3" Filter="FilterByLocalSearch">
-            <HeaderContent>
-                @HeaderContent
-            </HeaderContent>
-            
-            <RowTemplate>
-                @RowTemplate
-            </RowTemplate>
+        <MudTable Items="Items" Hover="true" Elevation="3" Filter="FilterByLocalSearch" HeaderContent="HeaderContent" RowTemplate="RowTemplate">
         </MudTable>
     }
     <MudFab OnClick="AddItemAsync" Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position: fixed; bottom: 20px; right: 20px" />
