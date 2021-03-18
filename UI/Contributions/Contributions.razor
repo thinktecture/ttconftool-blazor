@@ -6,55 +6,37 @@
 @using TTConfTool.Shared.ViewModels
 @using Microsoft.AspNetCore.Authorization
 
-@attribute [Authorize]
+@*@attribute [Authorize]*@
 
 @inject IContributionsService _contributionsClient
 
-<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-10">
-    <MudText Typo="Typo.h4" GutterBottom="true">Contributions</MudText>
-    @if (_contributions == null)
-    {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
-    }
-    else
-    {
-        <MudSimpleTable Style="overflow-x: auto;" Hover="true" Dense="true">
-            <thead>
-                <tr>
-                    <th>Titel</th>
-                    <th>Sprecher</th>
-                    <th>Datum</th>
-                    <th>Konferenz</th>
-                    <th>Art</th>
-                    <th>Tags</th>
-                </tr>
-            </thead>
-            <tbody>
-                <Virtualize Items="@_contributions" Context="contr">
-                    <tr @key="contr.ID">
-                        <td>@contr.Title</td>
-                        <td>@contr.SpeakersString</td>
-                        <td>@contr.Date.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)</td>
-                        <td><a href="@contr.Conference?.Url" target="_blank">@contr.Conference?.Title</a></td>
-                        <td>@contr.Type</td>
-                        <td>@contr.TagsString</td>
-                    </tr>
-                </Virtualize>
-            </tbody>
-        </MudSimpleTable>
-    }
-</MudContainer>
+<ConfToolTable TItem="ListViewContribution"
+               Title="Contributions"
+               Items="_contributions"
+               LoadItemsAsync="LoadContributionsAsync">
+    <HeaderContent>
+        <MudTh Class="mud-theme-primary">Titel</MudTh>
+        <MudTh Class="mud-theme-primary">Sprecher</MudTh>
+        <MudTh Class="mud-theme-primary">Datum</MudTh>
+        <MudTh Class="mud-theme-primary">Konferenz</MudTh>
+        <MudTh Class="mud-theme-primary">Art</MudTh>
+        <MudTh Class="mud-theme-primary">Tags</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Titel">@context.Title</MudTd>
+        <MudTd DataLabel="Sprecher">@context.SpeakersString</MudTd>
+        <MudTd DataLabel="Datum">@context.Date.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)</MudTd>
+        <MudTd DataLabel="Website"><MudLink Href="@context.Conference?.Url" Underline="Underline.Always">Link</MudLink></MudTd>
+        <MudTd DataLabel="Art">@context.Type</MudTd>
+        <MudTd DataLabel="Tags">@context.TagsString</MudTd>
+    </RowTemplate>
+</ConfToolTable>
 
 @code {
-    private List<ListViewContribution> _contributions;
+    private List<ListViewContribution> _contributions = new List<ListViewContribution>();
 
-    protected override async Task OnInitializedAsync()
+    private async Task LoadContributionsAsync()
     {
-        await LoadContributions();
-    }
-
-    private async Task LoadContributions()
-    {
-        _contributions = (await _contributionsClient.GetListViewContributionsAsync());
+        _contributions = await _contributionsClient.GetListViewContributionsAsync();
     }
 }

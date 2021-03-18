@@ -14,7 +14,7 @@
 @inject NavigationManager _navManager
 
 <ConfToolTable TItem="Conference"
-               Title="Konferenzen2"
+               Title="Konferenzen"
                Items="_conferences"
                Speakers="_speakers"
                LoadItemsAsync="LoadConferencesAsync"
@@ -22,10 +22,8 @@
                FilterByLocalSearch="FilterByLocalSearch"
                FilterBySpeakerAsync="FilterBySpeakerAsync"
                FilterByStartDateAsync="FilterByStartDateAsync"
-               FilterByEndDateAsync="FilterByEndDateAsync"
-               IsLoading="_isLoading"
-               IsRefreshing="_isRefreshing" >
-    <HeaderContent >
+               FilterByEndDateAsync="FilterByEndDateAsync">
+    <HeaderContent>
         <MudTh Class="mud-theme-primary">Titel</MudTh>
         <MudTh Class="mud-theme-primary">Ort</MudTh>
         <MudTh Class="mud-theme-primary">Zeitraum</MudTh>
@@ -46,12 +44,9 @@
     private List<Speaker> _speakers = new List<Speaker>();
     private SearchFilter _filter = new SearchFilter();
     private string _searchString = String.Empty;
-    private bool _isLoading = true;
-    private bool _isRefreshing = false;
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadConferencesAsync();
         await LoadSpeakersAsync();
     }
 
@@ -84,16 +79,7 @@
 
     private async Task LoadConferencesAsync()
     {
-        if (!_isLoading)
-        {
-            _isRefreshing = true;
-        }
-
-        _conferences.Clear();
         _conferences = await _conferencesClient.GetConferencesAsync(_filter);
-
-        _isLoading = false;
-        _isRefreshing = false;
     }
 
     private async Task LoadSpeakersAsync()
