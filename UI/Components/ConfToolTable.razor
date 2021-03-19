@@ -89,12 +89,16 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
+
         _isLoading = true;
         await LoadItems();
     }
 
     protected override bool ShouldRender()
     {
+        base.ShouldRender();
+
         Console.WriteLine("###!!! ShouldRender ConfToolTable");
 
         if(_isLoading)

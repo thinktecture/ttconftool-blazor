@@ -1,8 +1,14 @@
-﻿@code {
+﻿@using System.Diagnostics
+
+@code {
+    private Stopwatch Stopwatch = new Stopwatch();
+    private int RenderCount = 0;
+
     protected override void OnAfterRender(bool firstRender)
     {
-        Console.WriteLine("### OnAfterRender");
         base.OnAfterRender(firstRender);
+        Stopwatch.Stop();
+        Console.WriteLine($"### OnAfterRender - {GetType().Name} : Render #{RenderCount} Duration {Stopwatch.ElapsedMilliseconds}");
     }
 
     protected override Task OnAfterRenderAsync(bool firstRender)
@@ -31,6 +37,8 @@
 
     protected override bool ShouldRender()
     {
+        Stopwatch.Start();
+        RenderCount++;
         Console.WriteLine("### ShouldRender");
         return base.ShouldRender();
     }
