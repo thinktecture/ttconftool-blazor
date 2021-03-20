@@ -1,7 +1,7 @@
 ﻿@using System.Globalization
 @using TTConfTool.Shared.DTO
 
-@inherits ConsoleLoggingComponent
+@*@inherits ConsoleLoggingComponent*@
 
 @typeparam TItem
 
@@ -15,7 +15,7 @@
             <MudSelect T="Speaker" Label="Speaker" ValueChanged="FilterBySpeakerAsync" Class="mr-2">
                 @foreach (var speaker in Speakers)
                 {
-                    <MudSelectItem T="Speaker" Value="speaker">@speaker.FirstName @speaker.LastName</MudSelectItem>
+                    <MudSelectItem @key="speaker.ID" T="Speaker" Value="speaker">@speaker.FirstName @speaker.LastName</MudSelectItem>
                 }
             </MudSelect>
         }
@@ -27,39 +27,31 @@
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-10">
     <MudText Typo="Typo.h4" GutterBottom="true">@Title</MudText>
+    <MudIcon Icon="@Icons.Material.Filled.Refresh" @onclick="LoadItems" />
     @if (_isLoading)
     {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+        <MudProgressLinear Color="Color.Primary" Indeterminate="true" />
     }
-    else
-    {
-        <MudIcon Icon="@Icons.Material.Filled.Refresh" @onclick="LoadItems" />
-        @if (_isRefreshing)
-        {
-            <MudProgressLinear Color="Color.Primary" Indeterminate="true" />
-        }
 
-        <MudPaper Class="mb-4">
-            <div class="d-none d-sm-flex d-md-flex d-lg-flex d-xl-flex mx-4 pb-4">
-                @FilterUI
-            </div>
-            <div class="d-sm-none mud-width-full">
-                <MudExpansionPanels Elevation="0">
-                    <MudExpansionPanel Text="Filter">
-                        @FilterUI
-                    </MudExpansionPanel>
-                </MudExpansionPanels>
-            </div>
-        </MudPaper>
+    <MudPaper Class="mb-4">
+        <div class="d-none d-sm-flex d-md-flex d-lg-flex d-xl-flex mx-4 pb-4">
+            @FilterUI
+        </div>
+        <div class="d-sm-none mud-width-full">
+            <MudExpansionPanels Elevation="0">
+                <MudExpansionPanel Text="Filter">
+                    @FilterUI
+                </MudExpansionPanel>
+            </MudExpansionPanels>
+        </div>
+    </MudPaper>
 
-        <MudTable Items="Items" Hover="true" Elevation="3" Filter="FilterByLocalSearch" HeaderContent="HeaderContent" RowTemplate="RowTemplate">
-        </MudTable>
-    }
+    <MudTable Items="Items" Hover="true" Elevation="3" Filter="FilterByLocalSearch" HeaderContent="HeaderContent" RowTemplate="RowTemplate">
+    </MudTable>
     <MudFab OnClick="AddItemAsync" Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position: fixed; bottom: 20px; right: 20px" />
 </MudContainer>
 
 @code {
-    private bool _isRefreshing { get; set; }
     private bool _isLoading { get; set; }
 
     [Parameter]
@@ -115,15 +107,12 @@
 
     private async Task LoadItems()
     {
-        if (!_isLoading)
-        {
-            _isRefreshing = true;
-        }
-
         Items.Clear();
+        StateHasChanged();
+
+        _isLoading = true;
         await LoadItemsAsync.InvokeAsync();
 
         _isLoading = false;
-        _isRefreshing = false;
     }
 }

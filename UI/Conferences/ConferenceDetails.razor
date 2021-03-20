@@ -1,5 +1,5 @@
 ﻿@using System.Globalization
-@using TTConfTool.Shared
+@using TTConfTool.Shared.Extensions
 @using TTConfTool.Shared.DTO
 
 <MudDialog>
@@ -10,7 +10,7 @@
             <MudSelect Label="Land" @bind-Value="Conference.Country" Required="true">
                 @foreach (var country in Enum.GetValues<Country>())
                 {
-                    <MudSelectItem Value="country">@country.GetDisplayName()</MudSelectItem>
+                    <MudSelectItem @key="country" Value="country">@country.GetDisplayName()</MudSelectItem>
                 }
             </MudSelect>
             <MudDatePicker @bind-Date="Conference.DateFrom" Culture="@CultureInfo.GetCultureInfo("de-De")" DateFormat="dd.MM.yyyy" Label="Von (Datum)" DisableToolbar="true" Editable="true" />

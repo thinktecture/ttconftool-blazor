@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace TTConfTool.Shared
+namespace TTConfTool.Shared.Extensions
 {
     public static class NavigationManagerExtensions
     {

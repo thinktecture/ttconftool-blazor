@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace TTConfTool.Shared
+namespace TTConfTool.Shared.Extensions
 {
     public static class EnumExtensions
     {

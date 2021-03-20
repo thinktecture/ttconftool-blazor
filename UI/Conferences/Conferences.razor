@@ -53,7 +53,7 @@
     private async Task EditConferenceAsync(Conference conference)
     {
         var parameters = new DialogParameters { ["Conference"] = conference };
-        var dialog = _dialogService.Show<ConferenceDetails>("Konferenz bearbeiten", parameters, new DialogOptions { DisableBackdropClick = true });
+        var dialog = _dialogService.Show<ConferenceDetails>("Konferenz bearbeiten", parameters, new DialogOptions { MaxWidth = MaxWidth.Medium, DisableBackdropClick = true });
         var result = await dialog.Result;
 
         if (!result.Cancelled)

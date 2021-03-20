@@ -25,7 +25,7 @@ namespace TTConfTool.Shared
 
             services.AddHttpClient<ISpeakersService, SpeakersServiceHttpClient>(client =>
                 client.BaseAddress = new Uri(config["ConfToolApi"]));
-                //.AddHttpMessageHandler<ConfToolApiAuthorizationMessageHandler>();
+            //.AddHttpMessageHandler<ConfToolApiAuthorizationMessageHandler>();
 
             services.AddMudServices();
         }
