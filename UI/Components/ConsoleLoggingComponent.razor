@@ -8,30 +8,30 @@
     {
         base.OnAfterRender(firstRender);
         Stopwatch.Stop();
-        Console.WriteLine($"### OnAfterRender - {GetType().Name} : Render #{RenderCount} Duration {Stopwatch.ElapsedMilliseconds}");
+        Console.WriteLine($"### OnAfterRender - {GetType().Name}: Render #{RenderCount}; Duration {Stopwatch.ElapsedMilliseconds}");
     }
 
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
-        Console.WriteLine("### OnAfterRenderAsync");
+        Console.WriteLine($"### OnAfterRenderAsync - {GetType().Name}");
         return base.OnAfterRenderAsync(firstRender);
     }
 
     protected override void OnInitialized()
     {
-        Console.WriteLine("### OnInitialized");
+        Console.WriteLine($"### OnInitialized - {GetType().Name}");
         base.OnInitialized();
     }
 
     protected override void OnParametersSet()
     {
-        Console.WriteLine("### OnParametersSet");
+        Console.WriteLine($"### OnParametersSet - {GetType().Name}");
         base.OnParametersSet();
     }
 
     protected override Task OnParametersSetAsync()
     {
-        Console.WriteLine("### OnParametersSetAsync");
+        Console.WriteLine($"### OnParametersSetAsync - {GetType().Name}");
         return base.OnParametersSetAsync();
     }
 
@@ -39,13 +39,13 @@
     {
         Stopwatch.Start();
         RenderCount++;
-        Console.WriteLine("### ShouldRender");
+        Console.WriteLine($"### ShouldRender - {GetType().Name}");
         return base.ShouldRender();
     }
 
     protected override Task OnInitializedAsync()
     {
-        Console.WriteLine("### OnInitializedAsync");
+        Console.WriteLine($"### OnInitializedAsync - {GetType().Name}");
         return base.OnInitializedAsync();
     }
 }
