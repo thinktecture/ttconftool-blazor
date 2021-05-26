@@ -10,6 +10,8 @@ namespace TTConfTool.Shared.DTO
         BE,
         [Display(Name = "Deutschland")]
         DE,
+        [Display(Name = "Deutschland")] // Quick fix for annoying issue with the server API
+        Deutschland,
         [Display(Name = "England")]
         EN,
         [Display(Name = "Niederlande")]
