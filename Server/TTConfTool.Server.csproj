@@ -6,6 +6,10 @@
     <UserSecretsId>84514040-7383-4e15-acfe-952343e88890</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <BlazorEnableCompression>false</BlazorEnableCompression>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants>LIVESHARP_DISABLE</DefineConstants>
   </PropertyGroup>
