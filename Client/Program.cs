@@ -17,7 +17,7 @@ namespace TTConfTool.Client
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddAuth0Authentication(options =>
+            builder.Services.AddOidcAuthentication(options =>
             {
                 builder.Configuration.Bind("Oidc", options.ProviderOptions);
             });
